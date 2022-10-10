@@ -1,0 +1,255 @@
+WindowManager:
+    SplashScreen:
+        name: "splash"
+    HomeScreen:
+        name: "home"
+    FeedbackOption:
+        name: "feedback"
+    TextToSpeechScreen:
+        name: "tts"
+    VibrationPatternScreen:
+        name: "vibrate"
+    DemoScreen:
+        name: "demo"
+
+
+<SplashScreen>:
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Image:
+            source: "liwanag.png"
+            size_hint: 0.5, 0.5
+            pos_hint: {'center_x': 0.5,'center_y': 0.6}
+            anim_delay: 0
+            anim_loop: 1
+            
+        MDLabel:
+            text: "Liwanag"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.25}
+            halign: 'center'
+            theme_text_color: 'Custom'
+            text_color: 0,0,0,1
+            font_size: "45sp"
+            font_name: "Amellia.ttf"
+            
+<HomeScreen>:
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Image:
+            keep_ratio: False
+            allow_stretch: True
+            source: "homeBG.jpg"
+
+        MDLabel:
+            id: text1
+            text: "Hello"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text2
+            text: "Welcome to Liwanag"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "25sp"
+            opacity: 0
+        MDLabel:
+            id: text3
+            text: "We offer 2 feedback features for you to choose from. Please choose an option after hearing the beep sound"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "20sp"
+            opacity: 0
+        MDLabel:
+            id: text4
+            text: "Swipe left for text-to-speech feedback"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "25sp"
+            opacity: 0
+        MDLabel:
+            id: text5
+            text: "Swipe right for patterned vibrations feedback"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "25sp"
+            opacity: 0
+        MDLabel:
+            id: text6
+            text: "Double tap for the tutorial of the pattern vibrations"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "25sp"
+            opacity: 0
+  
+<FeedbackOption>:
+    md_bg_color: 1, 1, 1, 1
+    Image:
+        keep_ratio: False
+        allow_stretch: True
+        source: "homeBG.jpg"
+
+<TextToSpeechScreen>:
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Image:
+            keep_ratio: False
+            allow_stretch: True
+            source: "homeBG.jpg"
+        MDLabel:
+            id: pattern
+            text: "Text-to-Speech"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "30sp"
+            opacity: 1
+
+<VibrationPatternScreen>:
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Image:
+            keep_ratio: False
+            allow_stretch: True
+            source: "homeBG.jpg"
+        MDLabel:
+            id: pattern
+            text: "Vibration Patterns"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "30sp"
+            opacity: 1
+
+<DemoScreen>:
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Image:
+            keep_ratio: False
+            allow_stretch: True
+            source: "homeBG.jpg"
+        MDLabel:
+            id: text1
+            text: "Happiness"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text2
+            text: "Neutral"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text3
+            text: "Sadness"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text4
+            text: "Disgust"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text5
+            text: "Fear"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text6
+            text: "Surprise"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text7
+            text: "Anger"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text8
+            text: "Happily Surprised"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text9
+            text: "Happily Disgusted"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text10
+            text: "Sadly Fearful"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text11
+            text: "Sadly Angry"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text12
+            text: "Sadly Surprised"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text13
+            text: "Sadly Disgusted"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text14
+            text: "Fearfully Angry"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text15
+            text: "Fearfully Surprised"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text16
+            text: "Angrily Surprised"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text17
+            text: "Angrily Disgusted"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
+        MDLabel:
+            id: text18
+            text: "Disgustedly Surprised"
+            halign: "center"
+            font_name: "simpletix.ttf"
+            font_size: "40sp"
+            opacity: 0
