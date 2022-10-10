@@ -12,6 +12,10 @@ import cv2
 import os
 import numpy as np
 import pickle
+import threading
+import time
+
+Window.size = (300,500)
 
 class LocalBinaryPatterns:
     def __init__(self, numPoints, radius):
@@ -30,7 +34,10 @@ class LocalBinaryPatterns:
         return hist
 
 class MainApp(MDApp):
-    faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_alt2.xml')
+    # Specify the directory Method 1
+    cascPathface = os.path.dirname(cv2.__file__) + "/data/haarcascade_frontalface_alt2.xml"
+    faceCascade = cv2.CascadeClassifier(cascPathface)
+
 
     Categories = ['Anger', 'AngrilyDisgusted', 'AngrilySurprised', 'Disgust', 
             'DisgustedlySurprised', 'Fear', 'FearfullyAngry', 'FearfullySurprised',
@@ -38,8 +45,21 @@ class MainApp(MDApp):
               'SadlyAngry', 'SadlyDisgusted', 'SadlyFearful', 'SadlySurprised',
               'Sadness', 'Surprise']
 
+    l=[]
+    x = None
+    y = None
+    w = None
+    h = None
+    fr = None
+    emotion = None
+    hist = None
+    sec=0
+    counter = 0
+    frame = None
+    with_rectangle = None
+  
     desc = LocalBinaryPatterns(24, 8)
-    model = pickle.load(open('trained_model.p','rb'))
+    model = pickle.load(open('img_model6_15k_hog_lbp.p','rb'))
 
     def build(self):
         layout = MDBoxLayout(orientation='vertical')
@@ -50,37 +70,71 @@ class MainApp(MDApp):
             pos_hint={'center_x': .5, 'center_y': .5},
             size_hint=(None, None))
         )
-        self.capture = cv2.VideoCapture(1)
-        Clock.schedule_interval(self.load_video, 1.0/33.0)
+        self.capture = cv2.VideoCapture(0)
+
+        Clock.schedule_interval(self.load_video, 0.00001)
+
+        Clock.schedule_interval(self.recognition, 20)
+
+
         return layout
 
+    
+
     def load_video(self, *args):
+     
         ret, frame = self.capture.read()
-        # Unsure about this vvvvv
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        faces = self.faceCascade.detectMultiScale(gray,
-                                                scaleFactor=1.1,
-                                                minNeighbors=5,
-                                                minSize=(60, 60),
+        self.gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+ 
+     
+
+        faces = self.faceCascade.detectMultiScale(self.gray,
+                                                scaleFactor=1.2,
+                                                minNeighbors=10,
+                                                minSize=(64, 64),
                                                 flags=cv2.CASCADE_SCALE_IMAGE)
+
+       
         for (x,y,w,h) in faces:
-            cv2.rectangle(frame, (x, y), (x + w, y + h),(0,255,0), 2)
-            faceROI = gray[y:y+h,x:x+w]
+            self.x = x
+            self.y = y
+            self.w = w
+            self.h = h
+            self.with_rectangle = cv2.rectangle(frame, (self.x, self.y), (self.x + self.w, self.y + self.h),(0,255,0), 2)
+           
+
+        if self.with_rectangle is not None:
+            buffer = cv2.flip(self.with_rectangle, 0).tostring()  
+            texture = Texture.create(size=(640, 480), colorfmt ='bgr')
+            texture.blit_buffer(buffer, colorfmt='bgr', bufferfmt='ubyte')
+            self.image.texture = texture
+            self.with_rectangle = None
+        else:
+            buffer = cv2.flip(frame, 0).tostring()  
+            texture = Texture.create(size=(640, 480), colorfmt ='bgr')
+            texture.blit_buffer(buffer, colorfmt='bgr', bufferfmt='ubyte')
+            self.image.texture = texture
+
+
+
+    def recognition(self, *args):
+
+        if self.x is not None and self.gray is not None:
+            faceROI = self.gray[self.y:self.y+self.h,self.x:self.x+self.w]
 
             resized_img = resize(faceROI, (128,64))
             fd, hog_image = hog(resized_img, orientations=9, pixels_per_cell=(8, 8),cells_per_block=(2, 2), visualize=True, multichannel=False)
-            hist = self.desc.describe(resized_img)
-            feat = np.hstack([fd,hist])
-            l = [feat]
-            #probability = self.model.predict_proba(l)
-            #for ind,val in enumerate(self.Categories):
-            #    print(f'{val} = {probability[0][ind]*100}%')
-            print("The predicted image is : "+self.Categories[self.model.predict(l)[0]])
+            self.hist = self.desc.describe(resized_img)
+            feat = np.hstack([fd,self.hist])
+            self.l = [feat]
+            print("The pedicted image is: "+self.Categories[self.model.predict(self.l)[0]])
+            self.gray = None
+            self.x = None
+            self.y = None
+            self.w = None
+            self.h = None
+            
 
-        buffer = cv2.flip(frame, 0).tostring()
-        texture = Texture.create(size=(frame.shape[1], frame.shape[0]), colorfmt='bgr')
-        texture.blit_buffer(buffer, colorfmt='bgr', bufferfmt='ubyte')
-        self.image.texture = texture
 
 if __name__ == "__main__":
     MainApp().run()
