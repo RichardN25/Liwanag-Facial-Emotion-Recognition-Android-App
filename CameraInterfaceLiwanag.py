@@ -15,8 +15,6 @@ import pickle
 import threading
 import time
 
-Window.size = (300,500)
-
 class LocalBinaryPatterns:
     def __init__(self, numPoints, radius):
         # store the number of points and radius
